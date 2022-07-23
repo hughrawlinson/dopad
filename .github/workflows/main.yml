@@ -27,4 +27,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: touch ~/ACTIONWORKED.txt
+        script: |
+          cd /var/www/dopad.devlinlabs.space
+          ls
