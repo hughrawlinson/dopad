@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Notepad Todo</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+	<main class='container'>
+		<button class="clear-tasks">Delete all</button>
+		<ul class='task-list'>
+			<h1>Task list</h1>
+			<!-- Task list dynamically generated here from tasks array in script.js -->
+			<!-- <li class="task" id="100">
+				<span role="checkbox" aria-checked="true" class="checkbox">[x]</span>Hardcoded test task
+				<span class="buttons">
+					<button class='edit-button'>Edit</button>
+					<button class='delete-button'>Delete</button></span>
+			</li> -->
+			<li role='textbox' id='new-task' contenteditable='true' placeholder="Add a new task..."></li>
+		</ul>
+	</main>
+</body>
+<script src="script.js"></script>
+
+</html>
