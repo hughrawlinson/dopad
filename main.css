@@ -1,5 +1,11 @@
+@font-face {
+	font-family: 'lucon';
+	src: url('assets/lucon.ttf') format('ttf'),
+		url('assets/lucon.woff2') format('woff2');
+}
+
 html {
-	font-family: "Lucida Console";
+	font-family: "Lucida Console", "lucon", sans-serif;
 }
 
 .container h1 {
