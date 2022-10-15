@@ -9,5 +9,7 @@ LocalStorage, Content Editable, Javascript, CRUD, JSON
 
 ## TODO
 [BUG] Cannot add tasks on mobile, possibly due to how "keydown" works on android chrome.
+
 [TODO] Test and assure accessibility
-[TODO] Make PWA.
+
+[x] [TODO] Make PWA.
