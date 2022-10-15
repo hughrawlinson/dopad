@@ -11,6 +11,11 @@
 			"src": "/assets/favicon.png",
 			"type": "image/png",
 			"sizes": "64x64"
+		},
+		{
+			"src": "/assets/favicon-144.png",
+			"type": "image/png",
+			"sizes": "144x144"
 		}
 	]
 }
