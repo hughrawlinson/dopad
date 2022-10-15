@@ -1,19 +1,48 @@
-// Debugging functions
-
-function exit(msg) {
-	if (msg) {
-		console.log(msg)
-	}
-	throw new Error();
+// Register service worker
+if ("serviceWorker" in navigator) {
+	window.addEventListener("load", function () {
+		navigator.serviceWorker
+			.register("/serviceWorker.js")
+			.then(res => console.log("service worker registered"))
+			.catch(err => console.log("service worker not registered", err))
+	})
 }
 
+// Debugging functions
+
+let debug = false
+
+function exit(msg) {
+	throw new Error(msg);
+}
+
+
 function log(msg) {
-	console.log('===LOG===')
-	console.log(msg);
-	console.log('=========')
+	if (debug) {
+		console.log(`DEBUG: ${msg}`);
+	}
 }
 
 // Initial setup
+// Var setup
+let taskList = document.getElementsByClassName("task-list")[0];
+let newTaskField = document.querySelector('#new-task');
+let taskElements = document.querySelectorAll('.task')
+
+// If tasks exist, render the task list. If no tasks exist, initialise empty array in localStorage
+window.addEventListener("load", (e) => {
+	log('Initial load')
+	if (localStorage.length > 0) {
+		// If tasks exist, render them in the <ul>
+		tasks = JSON.parse(localStorage.getItem('tasks'))
+		render(tasks)
+	} else {
+		// If tasks array is empty, recreate the tasks array (catches a missing array as well)
+		localStorage.setItem('tasks', JSON.stringify([]))
+		render(tasks)
+	}
+});
+
 
 // Task object
 function Task(id, content) {
@@ -22,17 +51,12 @@ function Task(id, content) {
 	this.completed = false;
 }
 
-let tasks = []
-let taskList = document.getElementsByClassName("task-list")[0];
-let newTaskField = document.querySelector('#new-task');
-let taskElements = document.querySelectorAll('.task')
-
 // Render task list on frontend
 function render(tasksArray) {
 	document.querySelectorAll('.task').forEach(task => {
 		task.remove()
 	});
-	log('Removed all from frontend')
+	log('Re-rendering frontend')
 
 	tasksArray.forEach(task => {
 		// Create new top-level list item to contain task
@@ -66,13 +90,6 @@ function render(tasksArray) {
 	});
 }
 
-// If no tasks, initialise empty array in localStorage
-if (localStorage.length > 0) {
-	// If tasks exist, render them in the <ul>
-	tasks = JSON.parse(localStorage.getItem('tasks'))
-	render(tasks)
-}
-
 // Clear all tasks when the 'Delete all' button is pushed
 document.getElementsByClassName('clear-tasks')[0].addEventListener('click', (e) => {
 	if (confirm('This will permanently delete all stored tasks. this action cannot be undone. Proceed?')) {
@@ -96,6 +113,9 @@ newTaskField.addEventListener("keydown", (event) => {
 		if (newTaskField.textContent !== '') {
 			// ADD NEW TASK
 			// Read content of localStorage into a JS array called 'tasks'
+			if (!JSON.parse(localStorage.getItem('tasks'))) {
+				localStorage.setItem('tasks', JSON.stringify([]))
+			}
 			tasks = JSON.parse(localStorage.getItem('tasks'))
 			// Create new task object to be stored
 			let newTask = new Task(tasks.length + 1, newTaskField.innerHTML)
