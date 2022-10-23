@@ -66,6 +66,7 @@ function render(tasksArray) {
 		// Create checkbox span within list item
 		let newSpan = newListItem.appendChild(document.createElement("span"))
 		newSpan.setAttribute('role', 'checkbox')
+		newSpan.setAttribute('tabindex', '0')
 		newSpan.classList.add('checkbox')
 		// newSpan.insertAdjacentText('afterend', task.content)
 
