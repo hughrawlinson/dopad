@@ -80,6 +80,9 @@ function render(tasksArray) {
 		let deleteButton = newListItem.appendChild(document.createElement('p'))
 		deleteButton.classList.add('delete-task', 'hidden')
 		deleteButton.textContent = 'Delete'
+		deleteButton.setAttribute('tabindex', '0')
+
+		// Create checked or uncheckbox, depending on whether the task is marked as completed in localstorage
 		if (task.completed) {
 			newSpan.setAttribute('aria-checked', 'true')
 			newSpan.textContent = '[x]'
