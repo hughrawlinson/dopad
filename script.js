@@ -205,16 +205,16 @@ addEventListener("click", (event) => {
 	}
 });
 
-// Show delete link on hover
-document.addEventListener('mouseover', (e) => {
-	if (e.target.classList.contains('task')) {
-		deleteButton = e.target.getElementsByClassName('delete-task')[0]
-		deleteButton.classList.remove('hidden')
-		e.target.addEventListener('mouseout', (e) => {
-			deleteButton.classList.add('hidden')
-		})
-	}
-})
+// // Show delete link on hover
+// document.addEventListener('mouseover', (e) => {
+// 	if (e.target.classList.contains('task')) {
+// 		deleteButton = e.target.getElementsByClassName('delete-task')[0]
+// 		deleteButton.classList.remove('hidden')
+// 		e.target.addEventListener('mouseout', (e) => {
+// 			deleteButton.classList.add('hidden')
+// 		})
+// 	}
+// })
 
 // Delete task on clicking 'delete task' link
 document.addEventListener('click', (e) => {
@@ -226,3 +226,41 @@ document.addEventListener('click', (e) => {
 
 	}
 })
+
+// Focus handler
+document.addEventListener('focusin', (e) => {
+	// If checkbox in focus, toggle it
+	if (e.target.classList.contains('checkbox')) {
+		console.log(e.target)
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				let parentId = event.target.parentElement.id;
+				// Read content of localStorage into a JS array called 'tasks'
+				tasks = JSON.parse(localStorage.getItem('tasks'))
+				thisTask = tasks.filter(task => {
+					return task.id === parseInt(parentId);
+				})
+				let checkbox = document
+					.getElementById(parentId)
+					.getElementsByClassName("checkbox")[0];
+				// If checkbox is currently unchecked, check it, and mark the task as completed
+				if (!checkbox.innerHTML.includes("x")) {
+					thisTask[0].completed = true;
+					checkbox.setAttribute('aria-checked', 'true')
+					checkbox.innerHTML = "[x]"
+					// if the checkbox is currently checked, uncheck it, and mark the task as incomplete 
+				} else {
+					thisTask[0].completed = false;
+					checkbox.setAttribute('aria-checked', 'false')
+					checkbox.innerHTML = "[ ]"
+				};
+				// Stringify tasks JS array, and write it back to localStorage
+				localStorage.setItem('tasks', JSON.stringify(tasks))
+			}
+		})
+	}
+})
+
+// document.addEventListener('keyup', function () {
+// 	console.log('focused: ', document.activeElement)
+// }, true);
