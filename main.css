@@ -62,3 +62,8 @@ html {
 	font-size: 10px;
 	display: inline;
 }
+
+:focus {
+	border-style: solid;
+	border-color: blue;
+}
