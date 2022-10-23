@@ -227,11 +227,18 @@ document.addEventListener('click', (e) => {
 	}
 })
 
+// Trigger doubleclick
+let dblclick = new MouseEvent('dblclick', {
+	'view': window,
+	'bubbles': true,
+	'cancelable': true
+});
+
 // Focus handler
 document.addEventListener('focusin', (e) => {
 	// If checkbox in focus, toggle it
 	if (e.target.classList.contains('checkbox')) {
-		console.log(e.target)
+		console.log('Checkbox')
 		e.target.addEventListener('keyup', (e) => {
 			if (e.key === ' ' || e.key === 'Spacebar') {
 				let parentId = event.target.parentElement.id;
@@ -256,6 +263,19 @@ document.addEventListener('focusin', (e) => {
 				};
 				// Stringify tasks JS array, and write it back to localStorage
 				localStorage.setItem('tasks', JSON.stringify(tasks))
+			}
+		})
+	} else if (e.target.classList.contains('task-content')) {
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				e.target.dispatchEvent(dblclick);
+			}
+		})
+
+	} else if (e.target.classList.contains('delete-task')) {
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				e.target.click()
 			}
 		})
 	}
