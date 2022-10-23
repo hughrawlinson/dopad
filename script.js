@@ -73,6 +73,7 @@ function render(tasksArray) {
 		// Create span to contain task content within list item
 		let taskContentSpan = newListItem.appendChild(document.createElement("span"))
 		taskContentSpan.classList.add('task-content')
+		taskContentSpan.setAttribute("tabindex", '0')
 		taskContentSpan.textContent = task.content;
 
 		// Create delete button within list item
