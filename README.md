@@ -4,4 +4,4 @@ Dopad is a todo list Single Page App (SPA) built in vanilla javascript, themed t
 
 It allows quickly adding tasks, editing tasks, checking tasks off when complete, deleting individual tasks, and clearing all tasks from storage.
 
-🚨Doesn't currently work well on mobile (test in Chrome on Android)🚨
+🚨Doesn't currently work well on mobile (tested in Chrome on Android)🚨
