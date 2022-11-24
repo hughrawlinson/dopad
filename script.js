@@ -13,7 +13,9 @@ if ("serviceWorker" in navigator) {
 let debug = false
 
 function exit(msg) {
-	throw new Error(msg);
+	if (debug) {
+		throw new Error(msg);
+	}
 }
 
 
@@ -78,6 +80,7 @@ function render(tasksArray) {
 		let deleteButton = newListItem.appendChild(document.createElement('p'))
 		deleteButton.classList.add('delete-task', 'hidden')
 		deleteButton.textContent = 'Delete'
+
 		if (task.completed) {
 			newSpan.setAttribute('aria-checked', 'true')
 			newSpan.textContent = '[x]'
