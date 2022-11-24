@@ -192,6 +192,8 @@ addEventListener("click", (event) => {
 			thisTask[0].completed = true;
 			checkbox.setAttribute('aria-checked', 'true')
 			checkbox.innerHTML = "[x]"
+
+
 			// if the checkbox is currently checked, uncheck it, and mark the task as incomplete 
 		} else {
 			thisTask[0].completed = false;
@@ -204,15 +206,15 @@ addEventListener("click", (event) => {
 });
 
 // Show delete link on hover
-document.addEventListener('mouseover', (e) => {
-	if (e.target.classList.contains('task')) {
-		deleteButton = e.target.getElementsByClassName('delete-task')[0]
-		deleteButton.classList.remove('hidden')
-		e.target.addEventListener('mouseout', (e) => {
-			deleteButton.classList.add('hidden')
-		})
-	}
-})
+// document.addEventListener('mouseover', (e) => {
+// 	if (e.target.classList.contains('task')) {
+// 		deleteButton = e.target.getElementsByClassName('delete-task')[0]
+// 		deleteButton.classList.remove('hidden')
+// 		e.target.addEventListener('mouseout', (e) => {
+// 			deleteButton.classList.add('hidden')
+// 		})
+// 	}
+// })
 
 // Delete task on clicking 'delete task' link
 document.addEventListener('click', (e) => {
