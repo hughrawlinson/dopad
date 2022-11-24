@@ -67,3 +67,8 @@ html {
 	border-style: solid;
 	border-color: blue;
 }
+
+.checked {
+	text-decoration: line-through;
+	color: grey;
+}

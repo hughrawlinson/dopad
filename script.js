@@ -84,6 +84,7 @@ function render(tasksArray) {
 		if (task.completed) {
 			newSpan.setAttribute('aria-checked', 'true')
 			newSpan.textContent = '[x]'
+			taskContentSpan.classList.add('checked')
 		} else {
 			newSpan.setAttribute('aria-checked', 'false')
 			newSpan.textContent = '[ ]'
@@ -192,13 +193,14 @@ addEventListener("click", (event) => {
 			thisTask[0].completed = true;
 			checkbox.setAttribute('aria-checked', 'true')
 			checkbox.innerHTML = "[x]"
-
+			document.getElementById(parentId).getElementsByClassName('task-content')[0].classList.add('checked');
 
 			// if the checkbox is currently checked, uncheck it, and mark the task as incomplete 
 		} else {
 			thisTask[0].completed = false;
 			checkbox.setAttribute('aria-checked', 'false')
 			checkbox.innerHTML = "[ ]"
+			document.getElementById(parentId).getElementsByClassName('task-content')[0].classList.remove('checked');
 		};
 		// Stringify tasks JS array, and write it back to localStorage
 		localStorage.setItem('tasks', JSON.stringify(tasks))
