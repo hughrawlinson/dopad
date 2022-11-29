@@ -170,7 +170,7 @@ addEventListener('mousedown', (e) => {
 					// Read content of localStorage into a JS array called 'tasks'
 					tasks = JSON.parse(localStorage.getItem('tasks'))
 					thisTask = tasks.filter(task => {
-						return task.id === parseInt(taskElement.parentElement.getAttribute('id'));
+						return task.id === taskElement.parentElement.getAttribute('id');
 					})
 					thisTask[0].content = taskElement.textContent;
 					// Stringify tasks JS array, and write it back to localStorage
@@ -200,7 +200,7 @@ addEventListener("click", (event) => {
 		// Read content of localStorage into a JS array called 'tasks'
 		tasks = JSON.parse(localStorage.getItem('tasks'))
 		thisTask = tasks.filter(task => {
-			return task.id === parseInt(parentId);
+			return task.id === parentId;
 		})
 		let checkbox = document
 			.getElementById(parentId)
