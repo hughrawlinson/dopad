@@ -13,7 +13,9 @@ if ("serviceWorker" in navigator) {
 let debug = false
 
 function exit(msg) {
-	throw new Error(msg);
+	if (debug) {
+		throw new Error(msg);
+	}
 }
 
 
@@ -42,14 +44,6 @@ window.addEventListener("load", (e) => {
 		render(tasks)
 	}
 });
-
-
-// Task object
-function Task(id, content) {
-	this.id = id;
-	this.content = content;
-	this.completed = false;
-}
 
 // Render task list on frontend
 function render(tasksArray) {
@@ -81,11 +75,12 @@ function render(tasksArray) {
 		deleteButton.classList.add('delete-task', 'hidden')
 		deleteButton.textContent = 'Delete'
 		deleteButton.setAttribute('tabindex', '0')
-
+    
 		// Create checked or uncheckbox, depending on whether the task is marked as completed in localstorage
 		if (task.completed) {
 			newSpan.setAttribute('aria-checked', 'true')
 			newSpan.textContent = '[x]'
+			taskContentSpan.classList.add('checked')
 		} else {
 			newSpan.setAttribute('aria-checked', 'false')
 			newSpan.textContent = '[ ]'
@@ -109,6 +104,23 @@ document.getElementsByClassName('clear-tasks')[0].addEventListener('click', (e) 
 
 })
 
+// Generate UUID
+function generateUUID() { // Public Domain/MIT
+	var d = new Date().getTime();//Timestamp
+	var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = Math.random() * 16;//random number between 0 and 16
+		if (d > 0) {//Use timestamp until depleted
+			r = (d + r) % 16 | 0;
+			d = Math.floor(d / 16);
+		} else {//Use microseconds since page-load if supported
+			r = (d2 + r) % 16 | 0;
+			d2 = Math.floor(d2 / 16);
+		}
+		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
+}
+
 // Add task on enter
 newTaskField.addEventListener("keydown", (event) => {
 	// prevent enter key from entering a new line in he new task field
@@ -123,7 +135,11 @@ newTaskField.addEventListener("keydown", (event) => {
 			}
 			tasks = JSON.parse(localStorage.getItem('tasks'))
 			// Create new task object to be stored
-			let newTask = new Task(tasks.length + 1, newTaskField.innerHTML)
+			const newTask = {
+				id: generateUUID(),
+				content: newTaskField.innerHTML,
+				completed: false
+			}
 			// Add new task object to end of JS array
 			tasks.push(newTask)
 			// Stringify tasks JS array, and write it back to localStorage
@@ -154,7 +170,7 @@ addEventListener('mousedown', (e) => {
 					// Read content of localStorage into a JS array called 'tasks'
 					tasks = JSON.parse(localStorage.getItem('tasks'))
 					thisTask = tasks.filter(task => {
-						return task.id === parseInt(taskElement.parentElement.getAttribute('id'));
+						return task.id === taskElement.parentElement.getAttribute('id');
 					})
 					thisTask[0].content = taskElement.textContent;
 					// Stringify tasks JS array, and write it back to localStorage
@@ -184,7 +200,7 @@ addEventListener("click", (event) => {
 		// Read content of localStorage into a JS array called 'tasks'
 		tasks = JSON.parse(localStorage.getItem('tasks'))
 		thisTask = tasks.filter(task => {
-			return task.id === parseInt(parentId);
+			return task.id === parentId;
 		})
 		let checkbox = document
 			.getElementById(parentId)
@@ -194,18 +210,21 @@ addEventListener("click", (event) => {
 			thisTask[0].completed = true;
 			checkbox.setAttribute('aria-checked', 'true')
 			checkbox.innerHTML = "[x]"
+			document.getElementById(parentId).getElementsByClassName('task-content')[0].classList.add('checked');
+
 			// if the checkbox is currently checked, uncheck it, and mark the task as incomplete 
 		} else {
 			thisTask[0].completed = false;
 			checkbox.setAttribute('aria-checked', 'false')
 			checkbox.innerHTML = "[ ]"
+			document.getElementById(parentId).getElementsByClassName('task-content')[0].classList.remove('checked');
 		};
 		// Stringify tasks JS array, and write it back to localStorage
 		localStorage.setItem('tasks', JSON.stringify(tasks))
 	}
 });
 
-// // Show delete link on hover
+// Show delete link on hover
 // document.addEventListener('mouseover', (e) => {
 // 	if (e.target.classList.contains('task')) {
 // 		deleteButton = e.target.getElementsByClassName('delete-task')[0]

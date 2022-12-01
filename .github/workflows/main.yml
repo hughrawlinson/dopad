@@ -1,23 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: SSH into prod and pull down latest
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches:
+      - main
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
   build:
-    name: Build
+    name: Build on Ubuntu-latest
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
@@ -29,4 +21,4 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /var/www/dopad.devlinlabs.space
-          ls
+          git fetch && git pull
