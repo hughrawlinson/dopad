@@ -60,19 +60,23 @@ function render(tasksArray) {
 		// Create checkbox span within list item
 		let newSpan = newListItem.appendChild(document.createElement("span"))
 		newSpan.setAttribute('role', 'checkbox')
+		newSpan.setAttribute('tabindex', '0')
 		newSpan.classList.add('checkbox')
 		// newSpan.insertAdjacentText('afterend', task.content)
 
 		// Create span to contain task content within list item
 		let taskContentSpan = newListItem.appendChild(document.createElement("span"))
 		taskContentSpan.classList.add('task-content')
+		taskContentSpan.setAttribute("tabindex", '0')
 		taskContentSpan.textContent = task.content;
 
 		// Create delete button within list item
 		let deleteButton = newListItem.appendChild(document.createElement('p'))
 		deleteButton.classList.add('delete-task', 'hidden')
 		deleteButton.textContent = 'Delete'
-
+		deleteButton.setAttribute('tabindex', '0')
+    
+		// Create checked or uncheckbox, depending on whether the task is marked as completed in localstorage
 		if (task.completed) {
 			newSpan.setAttribute('aria-checked', 'true')
 			newSpan.textContent = '[x]'
@@ -241,3 +245,61 @@ document.addEventListener('click', (e) => {
 
 	}
 })
+
+// Trigger doubleclick
+let dblclick = new MouseEvent('dblclick', {
+	'view': window,
+	'bubbles': true,
+	'cancelable': true
+});
+
+// Focus handler
+document.addEventListener('focusin', (e) => {
+	// If checkbox in focus, toggle it
+	if (e.target.classList.contains('checkbox')) {
+		console.log('Checkbox')
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				let parentId = event.target.parentElement.id;
+				// Read content of localStorage into a JS array called 'tasks'
+				tasks = JSON.parse(localStorage.getItem('tasks'))
+				thisTask = tasks.filter(task => {
+					return task.id === parseInt(parentId);
+				})
+				let checkbox = document
+					.getElementById(parentId)
+					.getElementsByClassName("checkbox")[0];
+				// If checkbox is currently unchecked, check it, and mark the task as completed
+				if (!checkbox.innerHTML.includes("x")) {
+					thisTask[0].completed = true;
+					checkbox.setAttribute('aria-checked', 'true')
+					checkbox.innerHTML = "[x]"
+					// if the checkbox is currently checked, uncheck it, and mark the task as incomplete 
+				} else {
+					thisTask[0].completed = false;
+					checkbox.setAttribute('aria-checked', 'false')
+					checkbox.innerHTML = "[ ]"
+				};
+				// Stringify tasks JS array, and write it back to localStorage
+				localStorage.setItem('tasks', JSON.stringify(tasks))
+			}
+		})
+	} else if (e.target.classList.contains('task-content')) {
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				e.target.dispatchEvent(dblclick);
+			}
+		})
+
+	} else if (e.target.classList.contains('delete-task')) {
+		e.target.addEventListener('keyup', (e) => {
+			if (e.key === ' ' || e.key === 'Spacebar') {
+				e.target.click()
+			}
+		})
+	}
+})
+
+// document.addEventListener('keyup', function () {
+// 	console.log('focused: ', document.activeElement)
+// }, true);
