@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link rel="manifest" href="manifest.json" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dopad - Todo app</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
 
-<head>
-	<link rel="manifest" href="manifest.json">
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dopad - Todo app</title>
-	<link rel="icon" type="image/x-icon" href="assets/favicon.png">
-	<link rel="stylesheet" href="main.css">
-</head>
-
-<body>
-	<main class='container'>
-		<button class="clear-tasks">Delete all</button>
-		<ul class='task-list'>
-			<h1>Task list</h1>
-			<li aria-label="create new task" role='textbox' id='new-task' contenteditable='true'
-				placeholder="Add a new task..."></li>
-		</ul>
-	</main>
-</body>
-<script src="script.js"></script>
-
+  <body>
+    <main class="container">
+      <button class="clear-tasks">Delete all</button>
+      <ul class="task-list">
+        <h1>Task list</h1>
+        <li
+          aria-label="create new task"
+          role="textbox"
+          id="new-task"
+          contenteditable="true"
+          placeholder="Add a new task..."
+        ></li>
+      </ul>
+    </main>
+  </body>
+  <script src="script.js"></script>
 </html>
